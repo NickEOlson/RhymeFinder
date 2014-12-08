@@ -1,60 +1,74 @@
 package dictionary ;
 
-import java.io.IOException ;
-import java.io.File ;
-import java.util.Scanner ;
-
 public class Dictionary
 {
 	public String word ;
 	public int numLetters ;
+	public int numWords ;
 	
 	public Dictionary(String wrd)
 	{
 		word = wrd ;
 		getNumLetters() ;
+		numWords = 0 ;
 	}
 		
-	public void findRhymes() throws IOException
+	public String findRhymes(String temp)
 	{
-		Scanner file = new Scanner(new File("data/wordlist.dat")) ;
-		String temp = "" ;
-		while (!temp.equals(" "))
-		{
-			temp = file.nextLine() ;
-
-			if (word.length() < 2)
-			{
-				if (word.equalsIgnoreCase("a"))
-				{
-					if ((temp.length() >= 2) &&
-						(temp.substring(temp.length()-2).equals("ay") ||
-						temp.substring(temp.length()-2).equals("ah") ||
-						temp.substring(temp.length()-2).equals("uh")))
-							System.out.println(temp) ;
-				}
-				
-				if (word.equalsIgnoreCase("i"))
-				{
-					if ((temp.length() >= 2) &&
-						(temp.substring(temp.length()-2).equals("ie") ||
-						temp.substring(temp.length()-2).equals("ye") ||
-						temp.substring(temp.length()-2).equals("ly") ||
-						temp.substring(temp.length()-2).equals("ai") ||
-						temp.substring(temp.length()-2).equals("ky")))
-							System.out.println(temp) ;
-				}
-			}
-			
-			else
-			{
-				if (temp.length() >= getNumLetters() &&
-					word.substring((word.length() - getNumLetters())).equals(temp.substring((temp.length() - getNumLetters()))) &&
-					!word.equals(temp))
-						System.out.println(temp) ;
-			}
+		
+		if (word.length() < 2)
+		{				
+			if (word.equalsIgnoreCase("a"))
+				return getForA(temp) ;
+			if (word.equalsIgnoreCase("i"))
+				return getForI(temp) ;
 		}
-		file.close() ;
+			
+		else
+		{
+			return getForElse(temp) ;
+		}
+		return null ;
+	}
+	
+	public String getForI(String temp)
+	{
+		if ((temp.length() >= 2) &&
+				(temp.substring(temp.length()-2).equals("ie") ||
+				temp.substring(temp.length()-2).equals("ye") ||
+				temp.substring(temp.length()-2).equals("ly") ||
+				temp.substring(temp.length()-2).equals("ai") ||
+				temp.substring(temp.length()-2).equals("ky")))
+		{
+			numWords++ ;
+			return temp ;
+		}
+		return null ;
+	}
+	
+	public String getForA(String temp)
+	{
+		if ((temp.length() >= 2) &&
+				(temp.substring(temp.length()-2).equals("ay") ||
+				temp.substring(temp.length()-2).equals("ah") ||
+				temp.substring(temp.length()-2).equals("uh")))
+		{
+			numWords++ ;
+			return temp ;
+		}
+		return null ;
+	}
+	
+	public String getForElse(String temp)
+	{
+		if (temp.length() >= getNumLetters() &&
+				word.substring((word.length() - getNumLetters())).equals(temp.substring((temp.length() - getNumLetters()))) && 
+				!word.equals(temp))
+		{
+			numWords++ ;
+			return temp ;
+		}
+		return null ;
 	}
 	
 	public int getNumLetters()
@@ -70,10 +84,20 @@ public class Dictionary
 		return numLetters ;
 	}
 	
+	public int getNumWords()
+	{
+		return (int) (numWords*1.0 / 2) ;
+	}
+	
 	public boolean isOneLetter()
 	{
 		if (word.length() == 1)
 			return true ;
 		return false ;
+	}
+	
+	public String toString()
+	{
+		return "Yeah this shit don't work" ;
 	}
 }
