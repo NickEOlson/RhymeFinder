@@ -86,7 +86,7 @@ public class Dictionary
 	
 	public int getNumWords()
 	{
-		return (int) (numWords*1.0 / 2) ;
+		return numWords ;
 	}
 	
 	public boolean isOneLetter()
@@ -98,6 +98,6 @@ public class Dictionary
 	
 	public String toString()
 	{
-		return "Yeah this shit don't work" ;
+		return "Yeah this method is pointless." ;
 	}
 }
